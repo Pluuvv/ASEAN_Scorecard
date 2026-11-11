@@ -2,4 +2,4 @@
 data/raw/
 logs/
 __pycache__/
-.env
+.env.vscode/
