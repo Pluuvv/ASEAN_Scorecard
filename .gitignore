@@ -1,5 +1,8 @@
+@"
 .venv/
 data/raw/
 logs/
 __pycache__/
-.env.vscode/
+.env
+.vscode/
+"@ | Set-Content .gitignore -Encoding ascii
