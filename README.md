@@ -6,7 +6,7 @@ Dashboard BI yang menjawab satu pertanyaan bisnis:
 
 Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scoring di SQL, dashboard Power BI), bukan sekadar impor CSV. Terkait SDG 8 (pekerjaan layak dan pertumbuhan ekonomi) dan SDG 9 (industri, inovasi, infrastruktur).
 
-### Tampilan dashboard
+## Tampilan dashboard
 
 **Ringkasan.** Peringkat 10 negara, kartu KPI, dan tabel kualitas data.
 ![Ringkasan](docs/screenshots/01_ringkasan.png)
@@ -67,7 +67,7 @@ Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scori
 
 ## Arsitektur
 
-```
+```text
 World Bank Open Data API
         |
         v   Pentaho Data Integration (PDI)
@@ -133,8 +133,6 @@ World Bank Open Data API
 | 5 Tren            | Tren indikator 2010-2025 per negara                         |
 | 6 Metodologi      | Bobot, kelengkapan data, keterbatasan                       |
 
-Screenshot: tambahkan di `docs/screenshots/`.
-
 ---
 
 ## Keterbatasan
@@ -151,7 +149,7 @@ Screenshot: tambahkan di `docs/screenshots/`.
 
 ## Struktur repo
 
-```
+```text
 ASEAN_Scorecard/
 ├── src/      tes_api.py, cek_detail.py      script pengecekan API dan data quality
 ├── sql/      01_schemas.sql ... 06_cek_sensitivitas.sql
@@ -168,16 +166,20 @@ ASEAN_Scorecard/
 **Prasyarat:** Docker Desktop, Pentaho Data Integration 9.4 (Java 8), Python 3.13, Power BI Desktop.
 
 1. **Jalankan PostgreSQL** (ganti `<password>` dengan password sendiri, jangan di-commit):
+
    ```powershell
    docker run -d --name asean-pg -e POSTGRES_USER=asean -e POSTGRES_PASSWORD=<password> `
      -e POSTGRES_DB=asean_scorecard -p 5434:5432 -v asean_pgdata:/var/lib/postgresql/data `
      --restart unless-stopped postgres:16
    ```
+
 2. **Kredensial PDI:** isi variabel `ASEAN_DB_HOST`, `ASEAN_DB_PORT`, `ASEAN_DB_PASSWORD` di `~\.kettle\kettle.properties` (tanpa spasi di ujung baris), lalu buka ulang Spoon.
 3. **Buat schema:**
+
    ```powershell
    Get-Content sql\01_schemas.sql | docker exec -i asean-pg psql -U asean -d asean_scorecard
    ```
+
 4. **Ingest:** buka `pdi/tr_ingest_worldbank.ktr` di Spoon dan jalankan (hasil: 1.280 baris di `raw.wb_indikator`).
 5. **Bangun staging dan mart**, jalankan berurutan: `02_staging.sql`, `03_staging_terbaru.sql`, `04_mart_negara.sql`, `05_mart_skor.sql` (cara yang sama dengan langkah 3).
 6. **Dashboard:** buka `powerbi/asean_scorecard.pbix`, arahkan sumber data ke `localhost:5434`, database `asean_scorecard`. Set _Locale for import_ ke English (United States).
