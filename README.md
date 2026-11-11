@@ -6,24 +6,46 @@ Dashboard BI yang menjawab satu pertanyaan bisnis:
 
 Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scoring di SQL, dashboard Power BI), bukan sekadar impor CSV. Terkait SDG 8 (pekerjaan layak dan pertumbuhan ekonomi) dan SDG 9 (industri, inovasi, infrastruktur).
 
-![Ringkasan](docs/screenshots/SD_14_pbi_halaman1.png)
+### Tampilan dashboard
 
----
+**Ringkasan.** Peringkat 10 negara, kartu KPI, dan tabel kualitas data.
+![Ringkasan](docs/screenshots/01_ringkasan.png)
+
+**Simulator bobot (default).** Delapan slider bobot, skor dan peringkat dihitung ulang langsung.
+![Simulator default](docs/screenshots/02_simulator_default.png)
+
+**Simulator, bobot Findex = 0.** Tanpa inklusi keuangan, Indonesia naik ke peringkat 3.
+![Simulator Findex 0](docs/screenshots/03_simulator_findex0.png)
+
+**Profil negara.** Skor per indikator dibanding rata-rata ASEAN.
+![Profil negara](docs/screenshots/04_profil_negara.png)
+
+**Peta peluang.** Pengguna internet vs kepemilikan rekening bank, gap digital per negara.
+![Peta peluang](docs/screenshots/05_peta_peluang.png)
+
+**Tren 2010-2025.**
+![Tren](docs/screenshots/06_tren.png)
+
+**Metodologi dan keterbatasan.**
+![Metodologi](docs/screenshots/07_metodologi.png)
+
+**Model relasi.**
+![Model relasi](docs/screenshots/08_model_relasi.png)
 
 ## Temuan utama
 
-| Peringkat | Negara | Skor |
-|---|---|---|
-| 1 | Singapura | 86,4 |
-| 2 | Malaysia | 73,9 |
-| 3 | Thailand | 64,5 |
-| 4 | Brunei | 59,0 (bobot terpakai 85 dari 100, tanpa Findex) |
-| 5 | Indonesia | 56,2 |
-| 6 | Vietnam | 55,5 |
-| 7 | Filipina | 47,4 |
-| 8 | Kamboja | 38,6 |
-| 9 | Laos | 28,9 |
-| 10 | Myanmar | 24,0 (data terlama 2019) |
+| Peringkat | Negara    | Skor                                            |
+| --------- | --------- | ----------------------------------------------- |
+| 1         | Singapura | 86,4                                            |
+| 2         | Malaysia  | 73,9                                            |
+| 3         | Thailand  | 64,5                                            |
+| 4         | Brunei    | 59,0 (bobot terpakai 85 dari 100, tanpa Findex) |
+| 5         | Indonesia | 56,2                                            |
+| 6         | Vietnam   | 55,5                                            |
+| 7         | Filipina  | 47,4                                            |
+| 8         | Kamboja   | 38,6                                            |
+| 9         | Laos      | 28,9                                            |
+| 10        | Myanmar   | 24,0 (data terlama 2019)                        |
 
 1. **Peringkat 1-2 (SG, MY) dan 6-10 stabil** di semua skenario bobot yang diuji.
 2. **Thailand, Brunei, Indonesia (posisi 3-5) rapuh.** Urutannya berubah kalau bobot diubah, jadi dibaca sebagai satu kelompok, bukan peringkat pasti.
@@ -32,14 +54,14 @@ Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scori
 
 ### Uji sensitivitas
 
-| Negara | Skor asli | Bobot sama | Tanpa Findex |
-|---|---|---|---|
-| SG | 1 | 1 | 1 |
-| MY | 2 | 2 | 2 |
-| TH | 3 | 4 | 4 |
-| BN | 4 | 3 | 5 |
-| ID | 5 | 5 | 3 |
-| VN, PH, KH, LA, MM | 6, 7, 8, 9, 10 | sama | sama |
+| Negara             | Skor asli      | Bobot sama | Tanpa Findex |
+| ------------------ | -------------- | ---------- | ------------ |
+| SG                 | 1              | 1          | 1            |
+| MY                 | 2              | 2          | 2            |
+| TH                 | 3              | 4          | 4            |
+| BN                 | 4              | 3          | 5            |
+| ID                 | 5              | 5          | 3            |
+| VN, PH, KH, LA, MM | 6, 7, 8, 9, 10 | sama       | sama         |
 
 ---
 
@@ -62,12 +84,12 @@ World Bank Open Data API
   Dashboard 6 halaman
 ```
 
-| Lapisan | Tool | Fungsi |
-|---|---|---|
-| Ingest | PDI (Spoon) | Panggil API, parse JSON, tulis ke `raw` (idempotent, tabel di-truncate tiap run) |
-| Data quality | Python (`src/cek_detail.py`) | Hitung kelengkapan per indikator dan negara |
-| Transform + scoring | SQL | Staging, mart, normalisasi, pembobotan |
-| Visualisasi | Power BI | Ringkasan, simulator bobot, profil negara, peta peluang, tren, metodologi |
+| Lapisan             | Tool                         | Fungsi                                                                           |
+| ------------------- | ---------------------------- | -------------------------------------------------------------------------------- |
+| Ingest              | PDI (Spoon)                  | Panggil API, parse JSON, tulis ke `raw` (idempotent, tabel di-truncate tiap run) |
+| Data quality        | Python (`src/cek_detail.py`) | Hitung kelengkapan per indikator dan negara                                      |
+| Transform + scoring | SQL                          | Staging, mart, normalisasi, pembobotan                                           |
+| Visualisasi         | Power BI                     | Ringkasan, simulator bobot, profil negara, peta peluang, tren, metodologi        |
 
 ---
 
@@ -78,16 +100,16 @@ World Bank Open Data API
 - **Volume:** 8 indikator x 10 negara x 16 tahun = 1.280 baris, dengan 1.132 baris berisi nilai.
 - **Tahun acuan scoring:** 2024 (nilai terakhir yang tersedia per indikator). Grafik tren memakai 2010-2025.
 
-| Indikator | Kode World Bank | Pilar | Bobot |
-|---|---|---|---|
-| GDP per kapita | `NY.GDP.PCAP.CD` | Daya beli | 20 |
-| Populasi | `SP.POP.TOTL` | Ukuran pasar | 20 |
-| Pertumbuhan populasi | `SP.POP.GROW` | Pertumbuhan | 10 |
-| Pengguna internet | `IT.NET.USER.ZS` | Kesiapan digital | 15 |
-| Kepemilikan rekening bank (Findex) | `FX.OWN.TOTL.ZS` | Kesiapan digital | 15 |
-| Urbanisasi | `SP.URB.TOTL.IN.ZS` | Infrastruktur | 10 |
-| Akses listrik | `EG.ELC.ACCS.ZS` | Infrastruktur | 5 |
-| Inflasi | `FP.CPI.TOTL.ZG` | Stabilitas | 5 |
+| Indikator                          | Kode World Bank     | Pilar            | Bobot |
+| ---------------------------------- | ------------------- | ---------------- | ----- |
+| GDP per kapita                     | `NY.GDP.PCAP.CD`    | Daya beli        | 20    |
+| Populasi                           | `SP.POP.TOTL`       | Ukuran pasar     | 20    |
+| Pertumbuhan populasi               | `SP.POP.GROW`       | Pertumbuhan      | 10    |
+| Pengguna internet                  | `IT.NET.USER.ZS`    | Kesiapan digital | 15    |
+| Kepemilikan rekening bank (Findex) | `FX.OWN.TOTL.ZS`    | Kesiapan digital | 15    |
+| Urbanisasi                         | `SP.URB.TOTL.IN.ZS` | Infrastruktur    | 10    |
+| Akses listrik                      | `EG.ELC.ACCS.ZS`    | Infrastruktur    | 5     |
+| Inflasi                            | `FP.CPI.TOTL.ZG`    | Stabilitas       | 5     |
 
 ---
 
@@ -102,14 +124,14 @@ World Bank Open Data API
 
 ## Halaman dashboard
 
-| Halaman | Isi |
-|---|---|
-| 1 Ringkasan | Kartu KPI, peringkat negara, tabel kualitas data |
+| Halaman           | Isi                                                         |
+| ----------------- | ----------------------------------------------------------- |
+| 1 Ringkasan       | Kartu KPI, peringkat negara, tabel kualitas data            |
 | 2 Simulator bobot | 8 slider bobot, skor dan peringkat dihitung ulang (what-if) |
-| 3 Profil negara | Skor per indikator dibanding rata-rata ASEAN |
-| 4 Peta peluang | Pengguna internet vs rekening bank, gap digital per negara |
-| 5 Tren | Tren indikator 2010-2025 per negara |
-| 6 Metodologi | Bobot, kelengkapan data, keterbatasan |
+| 3 Profil negara   | Skor per indikator dibanding rata-rata ASEAN                |
+| 4 Peta peluang    | Pengguna internet vs rekening bank, gap digital per negara  |
+| 5 Tren            | Tren indikator 2010-2025 per negara                         |
+| 6 Metodologi      | Bobot, kelengkapan data, keterbatasan                       |
 
 Screenshot: tambahkan di `docs/screenshots/`.
 
@@ -158,7 +180,7 @@ ASEAN_Scorecard/
    ```
 4. **Ingest:** buka `pdi/tr_ingest_worldbank.ktr` di Spoon dan jalankan (hasil: 1.280 baris di `raw.wb_indikator`).
 5. **Bangun staging dan mart**, jalankan berurutan: `02_staging.sql`, `03_staging_terbaru.sql`, `04_mart_negara.sql`, `05_mart_skor.sql` (cara yang sama dengan langkah 3).
-6. **Dashboard:** buka `powerbi/asean_scorecard.pbix`, arahkan sumber data ke `localhost:5434`, database `asean_scorecard`. Set *Locale for import* ke English (United States).
+6. **Dashboard:** buka `powerbi/asean_scorecard.pbix`, arahkan sumber data ke `localhost:5434`, database `asean_scorecard`. Set _Locale for import_ ke English (United States).
 
 ---
 
