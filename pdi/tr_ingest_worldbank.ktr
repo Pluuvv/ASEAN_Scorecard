@@ -588,7 +588,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>16</xloc>
+      <xloc>32</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -632,8 +632,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>48</yloc>
+      <xloc>176</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -755,7 +755,7 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
+      <xloc>176</xloc>
       <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
@@ -799,8 +799,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>48</yloc>
+      <xloc>32</xloc>
+      <yloc>144</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -863,8 +863,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>160</yloc>
+      <xloc>336</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
