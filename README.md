@@ -6,7 +6,7 @@ Dashboard BI yang menjawab satu pertanyaan bisnis:
 
 Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scoring di SQL, dashboard Power BI), bukan sekadar impor CSV. Terkait SDG 8 (pekerjaan layak dan pertumbuhan ekonomi) dan SDG 9 (industri, inovasi, infrastruktur).
 
-**[Lihat PDF dashboard (6 halaman)](docs/ASEAN_Scorecard.pdf)**
+**[Lihat PDF dashboard (6 halaman)](docs/ASEAN_scorecard.pdf)**
 
 ![Simulator bobot](docs/simulator.gif)
 
@@ -58,6 +58,13 @@ Proyek ini dibangun dengan pipeline sungguhan (API, ETL, database 3 lapis, scori
 2. **Thailand, Brunei, Indonesia, dan Vietnam (posisi 3-6) rapuh.** Urutannya berubah kalau bobot diubah, jadi dibaca sebagai satu kelompok, bukan peringkat pasti. Selisih skor Indonesia dan Vietnam hanya 0,7 poin.
 3. **Inklusi keuangan adalah gap terbesar Indonesia.** Tanpa indikator rekening bank (Findex), Indonesia naik dari peringkat 5 ke 3. Sebaliknya, kalau bobot Findex dinaikkan ke 40, Indonesia turun ke peringkat 6. Artinya pengguna internet sudah banyak, tapi rekening bank baru sekitar 56%: ruang tumbuh untuk fintech.
 4. **Brunei peringkat 4 sebagian karena Findex-nya tidak ada**, bukan murni karena kuat. Skornya tidak berubah (59,0) di semua skenario bobot Findex.
+
+### Rekomendasi
+
+- **Prioritas utama: Singapura dan Malaysia.** Peringkat 1-2 di semua skenario bobot.
+- **Tier tengah (Thailand, Brunei, Indonesia, Vietnam):** pilihan bergantung pada strategi, karena urutannya bergeser saat bobot berubah. Brunei dibaca hati-hati karena tanpa data Findex.
+- **Indonesia cocok untuk fintech:** pengguna internet jauh di atas kepemilikan rekening bank (sekitar 56%), dan populasinya terbesar di ASEAN.
+- **Kamboja dan Laos:** gap internet vs rekening bank besar, tapi pasarnya kecil, jadi bukan prioritas awal. Myanmar skor terendah dengan data lawas.
 
 ### Uji sensitivitas
 
@@ -158,7 +165,7 @@ World Bank Open Data API
 - **Myanmar memakai data lawas** (inflasi terakhir 2019, internet 2020, Findex 2021). Tahun datanya ditandai di dashboard.
 - **Inflasi Brunei negatif (deflasi, -0,4%).** Rumus dibiarkan apa adanya, sehingga Brunei mendapat skor inflasi terbaik. Dicatat sebagai keterbatasan.
 - **Bobot bersifat subjektif.** Karena itu ada uji sensitivitas dan simulator bobot.
-- **Simulator tidak menormalisasi total bobot.** Skor dibagi total bobot slider, jadi total 125 (Findex = 40) tetap menghasilkan skala 0-100.
+- **Total bobot slider tidak harus 100.** Skor dibagi total bobot, jadi tetap berskala 0-100 (misalnya total 125 saat Findex = 40).
 - Outlier: inflasi Laos 23,13%.
 
 ---
@@ -205,3 +212,5 @@ ASEAN_Scorecard/
 ## Pengembang
 
 Yanuar Arifin, mahasiswa S1 Sistem Informasi. Proyek portofolio BI / data analyst.
+
+[LinkedIn](https://linkedin.com/in/yanuararifinilham) | [GitHub](https://github.com/Pluuvv)
